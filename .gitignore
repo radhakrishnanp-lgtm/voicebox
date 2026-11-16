@@ -1,0 +1,9 @@
+.env
+target/
+vendor/
+logs/sessions/*
+!logs/sessions/.gitkeep
+data/conversations/*
+!data/conversations/.gitkeep
+data/audio/
+data/*.json

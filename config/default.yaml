@@ -1,0 +1,42 @@
+# Which preset from models.yaml to use. This is the one line to change to switch models.
+active_preset: default
+
+server:
+  host: 0.0.0.0
+  port: 8080
+  max_connections: 20         # browser tabs connected at once; more are refused
+
+assistant:
+  max_history_turns: 20       # how many past exchanges the LLM sees; older ones stay saved
+                              # but are not sent. Behaviour per mode is in modes.yaml.
+
+vad:
+  threshold: 0.5              # speech probability needed to start a turn
+  min_silence_ms: 550         # silence that ends a turn. Lower is faster but cuts off slow speakers
+  min_speech_ms: 250          # shorter bursts are ignored
+  pre_roll_ms: 300            # audio kept from before speech was detected
+  max_utterance_s: 30
+  early_stt_ms: 250           # start transcribing after this much silence, before the turn
+                              # officially ends. Saves ~300 ms. 0 disables.
+  barge_in: true              # speaking while the assistant talks interrupts it
+
+cost:
+  session_budget_usd: 0.50    # 0 disables. When reached, the session stops taking turns.
+
+logging:
+  sessions_dir: logs/sessions
+
+custom_models:
+  enabled: true               # allow adding your own model endpoints from the UI. The server
+                              # will call whatever address is entered, so turn this off on a
+                              # deployment you share with people you do not fully trust.
+
+recording:
+  max_total_mb: 2000          # stop saving audio once all recordings reach this size. 0 = no limit
+  enabled: true               # save the audio of both sides so messages can be replayed.
+                              # About 2 to 3 MB per minute of speech (WAV). Users can turn
+                              # it off for themselves in Settings.
+
+storage:
+  conversations_dir: data/conversations   # saved conversations (history you can resume)
+  audio_dir: data/audio                   # recordings, one folder per conversation
